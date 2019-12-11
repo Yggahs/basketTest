@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AddScore : MonoBehaviour
-{
+{   
+
     private GameObject ball;
     private Collider hoop;
     private void Awake()
@@ -26,6 +27,7 @@ public class AddScore : MonoBehaviour
     {
         if (collision.gameObject.tag == "ball")
         {
+            GameManager.PlayerScore += 3;
             Debug.Log("ma che sei forte");
             Object.Destroy(ball, 3f);
         }
