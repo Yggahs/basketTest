@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ball
   - scoreText
+  - slider
   layers:
   - Default
   - TransparentFX

@@ -1,18 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
     public GameObject ball;
     public GameObject target;
+    public Slider slider;
+    private float barMax = 10f;
+    private float currentBar = 0;
 
     public float h = 25;
     public float gravity = -18;
     // Start is called before the first frame update
     private void Awake()
     {
-       
+       slider = GameObject.FindGameObjectWithTag("slider").GetComponent<Slider>();
     }
     void Start()
     {

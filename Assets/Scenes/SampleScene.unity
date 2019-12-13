@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -375,7 +375,7 @@ GameObject:
   - component: {fileID: 326057696}
   m_Layer: 5
   m_Name: Slider
-  m_TagString: Untagged
+  m_TagString: slider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -894,6 +894,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: player
       objectReference: {fileID: 0}
+    - target: {fileID: 1933875957, guid: 48fca5a29e3cd5c4fbcd3d85d1e23c01, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2494121713870845162, guid: 48fca5a29e3cd5c4fbcd3d85d1e23c01,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -954,10 +958,6 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 359113778}
-    - target: {fileID: 1933875957, guid: 48fca5a29e3cd5c4fbcd3d85d1e23c01, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1933875958, guid: 48fca5a29e3cd5c4fbcd3d85d1e23c01, type: 3}
       propertyPath: m_RaycastTarget
       value: 0
