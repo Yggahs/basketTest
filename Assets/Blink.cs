@@ -4,16 +4,43 @@ using UnityEngine;
 
 public class Blink : MonoBehaviour
 {
-    bool blinking = false;
+    public bool blinking = false;
+    public GameObject scoreZone;
     // Start is called before the first frame update
     void Start()
     {
-        
+        chooseBlinking();
     }
 
-    // Update is called once per frame
-    void Update()
+
+
+    public void chooseBlinking()
     {
-        GetComponent<Renderer>().material.color = (Color.red);
+        if(Random.value > .5)
+        {
+          gameObject.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+          blinking = true;
+          
+          
+        }
+        else
+        {
+          gameObject.GetComponent<Renderer>().material.SetColor("_Color", Color.white);
+          blinking = false;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        
+        if (collision.gameObject.tag == "ball")
+        {
+            Debug.Log("colputo");
+            if (blinking == true)
+            {
+                scoreZone.GetComponent<AddScore>().bonus = true;
+            }
+        
+        }
     }
 }

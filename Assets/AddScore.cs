@@ -4,28 +4,40 @@ using UnityEngine;
 
 public class AddScore : MonoBehaviour
 {
-    private GameObject ball;
-    private Collider hoop;
-    private void Awake()
-    {
-        hoop = GetComponent<Collider>();
-        ball = GameObject.FindGameObjectWithTag("ball");
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public GameObject backboard;
+    public GameObject hoop;
+    public bool bonus = false;
+    public bool perfect = true;
 
-    // Update is called once per frame
-  
-
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.tag == "ball")
+        GetComponent<Collider>().enabled = false;
+        if(bonus == true)
         {
-            GameManager.PlayerScore += 3;
-            Object.Destroy(ball, 3f);
+            if (perfect == true)
+            {
+                GameManager.PlayerScore += 5;
+            }
+            else
+            {
+                GameManager.PlayerScore += 4; 
+            }
         }
-    }
+        else
+        {
+            if (perfect == true)
+            {
+                GameManager.PlayerScore += 3;            
+            }
+            else
+            {
+                GameManager.PlayerScore += 2;                
+            }            
+        }
+
+        if (collision.gameObject != null)
+        {
+            Object.Destroy(collision.gameObject, 3f);  
+        }        
+    }    
 }

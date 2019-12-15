@@ -7,6 +7,8 @@ TagManager:
   - ball
   - scoreText
   - slider
+  - backBoard
+  - hoop
   layers:
   - Default
   - TransparentFX
