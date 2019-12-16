@@ -86,12 +86,12 @@ public class Player : MonoBehaviour
                 endPos = Input.mousePosition;
                 direction = (endPos - startPos)/timeInterval;
                 Vector3 swipeZ = new Vector3(0,0,direction.y);
-                slider.value = swipeZ.magnitude / 3000f;
+                slider.value = swipeZ.magnitude / 3550f;
                
                 if (ball.GetComponent<Rigidbody>().useGravity)
                 {
                     ball.transform.parent = null;
-                    ball.GetComponent<Rigidbody>().AddForce(CalculateVelocity().normalized * (swipeZ.magnitude/3f));
+                    ball.GetComponent<Rigidbody>().AddForce(CalculateVelocity().normalized * (swipeZ.magnitude/3.55f));
                     Debug.Log(slider.value);
                 }
                 thrown = true;
