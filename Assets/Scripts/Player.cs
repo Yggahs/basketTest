@@ -57,13 +57,11 @@ public class Player : MonoBehaviour
         }
     }
     Vector3 CalculateVelocity()
-    {
-        float a = playerInput;
+    { 
         float displacementY = scoreZone.transform.position.y - ball.transform.position.y;
-        Vector3 displacementXZ = new Vector3(scoreZone.transform.position.x - ball.transform.position.x,0, (scoreZone.transform.position.z - ball.transform.position.z) * (Mathf.Clamp(a,0.5f,2.0f)));
+        Vector3 displacementXZ = new Vector3(scoreZone.transform.position.x - ball.transform.position.x,0, (scoreZone.transform.position.z - ball.transform.position.z) * playerInput);
         Vector3 velocityY = Vector3.up * Mathf.Sqrt(-2 * gravity * h);
         Vector3 velocityXZ = displacementXZ / (Mathf.Sqrt(-2 * h / gravity) + Mathf.Sqrt(2 * (displacementY - h) / gravity));
-        Debug.Log(a);
         return velocityXZ+velocityY;
     }
 
@@ -82,9 +80,12 @@ public class Player : MonoBehaviour
                 touchTimeFinish = Time.time;
                 timeInterval = touchTimeFinish - touchTimeStart;
                 endPos = Input.mousePosition;
-                direction = startPos - endPos;
-                playerInput = (direction.magnitude/(timeInterval*3800));
-                slider.value = playerInput/2500;
+                direction = endPos - startPos;
+                Debug.Log(direction);
+                Vector3 mannaggia = new Vector3(0,0,direction.y);
+                Debug.Log(mannaggia.magnitude);
+                playerInput = (mannaggia.magnitude/(timeInterval*4000));
+                slider.value = playerInput/2;
                 if (ball.GetComponent<Rigidbody>().useGravity)
                 {
                     ball.GetComponent<Rigidbody>().velocity = CalculateVelocity();
