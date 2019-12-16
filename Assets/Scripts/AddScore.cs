@@ -9,35 +9,30 @@ public class AddScore : MonoBehaviour
     public bool bonus = false;
     public bool perfect = true;
 
-    private void OnCollisionExit(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
         GetComponent<Collider>().enabled = false;
         if(bonus == true)
         {
             if (perfect == true)
             {
-                GameManager.PlayerScore += 5;
+                GameManager.playerScore += 5;
             }
             else
             {
-                GameManager.PlayerScore += 4; 
+                GameManager.playerScore += 4; 
             }
         }
         else
         {
             if (perfect == true)
             {
-                GameManager.PlayerScore += 3;            
+                GameManager.playerScore += 3;            
             }
             else
             {
-                GameManager.PlayerScore += 2;                
+                GameManager.playerScore += 2;                
             }            
-        }
-
-        if (collision.gameObject != null)
-        {
-            Object.Destroy(collision.gameObject, 3f);  
-        }        
+        }     
     }    
 }

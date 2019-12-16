@@ -19,9 +19,7 @@ public class Blink : MonoBehaviour
         if(Random.value > .5)
         {
           gameObject.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
-          blinking = true;
-          
-          
+          blinking = true; 
         }
         else
         {
@@ -35,12 +33,10 @@ public class Blink : MonoBehaviour
         
         if (collision.gameObject.tag == "ball")
         {
-            Debug.Log("colputo");
             if (blinking == true)
             {
                 scoreZone.GetComponent<AddScore>().bonus = true;
-            }
-        
+            }       
         }
     }
 }

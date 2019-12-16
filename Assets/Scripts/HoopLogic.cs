@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class hoopLogic : MonoBehaviour
+public class HoopLogic : MonoBehaviour
 {
     public GameObject scoreZone;
     private void OnCollisionEnter(Collision collision)
@@ -10,10 +10,6 @@ public class hoopLogic : MonoBehaviour
         if (collision.gameObject.tag == "ball")
         {
             scoreZone.GetComponent<AddScore>().perfect = false;
-            //if (collision.gameObject != null)
-            //{
-              //  Object.Destroy(collision.gameObject, 3f);
-            //&}
         }
     }
 }

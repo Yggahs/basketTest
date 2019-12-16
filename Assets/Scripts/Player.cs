@@ -36,14 +36,11 @@ public class Player : MonoBehaviour
         firstCamera.enabled = true;
         secondCamera.enabled = false;
     }
-
     // Update is called once per frame
     void Update()
     {
-        playerInput = slider.value;
         throwBall();
         createBall();
-       
     }
     void createBall()
     {
@@ -61,11 +58,12 @@ public class Player : MonoBehaviour
     }
     Vector3 CalculateVelocity()
     {
-        float displacementY = scoreZone.transform.position.y - ball.transform.position.y + playerInput;
-        Vector3 displacementXZ = new Vector3(scoreZone.transform.position.x - ball.transform.position.x,0, scoreZone.transform.position.z - ball.transform.position.z);
-
+        float a = playerInput;
+        float displacementY = scoreZone.transform.position.y - ball.transform.position.y;
+        Vector3 displacementXZ = new Vector3(scoreZone.transform.position.x - ball.transform.position.x,0, (scoreZone.transform.position.z - ball.transform.position.z) * (Mathf.Clamp(a,0.5f,2.0f)));
         Vector3 velocityY = Vector3.up * Mathf.Sqrt(-2 * gravity * h);
         Vector3 velocityXZ = displacementXZ / (Mathf.Sqrt(-2 * h / gravity) + Mathf.Sqrt(2 * (displacementY - h) / gravity));
+        Debug.Log(a);
         return velocityXZ+velocityY;
     }
 
@@ -80,18 +78,13 @@ public class Player : MonoBehaviour
             }
             if (Input.GetMouseButtonUp(0))
             {
-
                 ball.GetComponent<Rigidbody>().useGravity = true;
-
-
                 touchTimeFinish = Time.time;
                 timeInterval = touchTimeFinish - touchTimeStart;
                 endPos = Input.mousePosition;
                 direction = startPos - endPos;
-                throwForce = direction.magnitude / 1000;
-                slider.value = throwForce;
-                playerInput = throwForce;
-
+                playerInput = (direction.magnitude/(timeInterval*3800));
+                slider.value = playerInput/2500;
                 if (ball.GetComponent<Rigidbody>().useGravity)
                 {
                     ball.GetComponent<Rigidbody>().velocity = CalculateVelocity();
@@ -100,12 +93,13 @@ public class Player : MonoBehaviour
             }
             StartCoroutine(cameraControl());
         }
-        //Debug.Log(direction.magnitude / 1000);
+        else{
+            Destroy(ball,4f);
+        }
     }
 
     IEnumerator cameraControl()
-    {
-       
+    {      
         if (thrown == true)
         {
             yield return new WaitForSeconds(1.65f);
@@ -118,6 +112,5 @@ public class Player : MonoBehaviour
             secondCamera.enabled = false;
         }
         yield break;
-    }
-     
+    }   
 }
