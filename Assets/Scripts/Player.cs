@@ -11,8 +11,7 @@ public class Player : MonoBehaviour
     public GameObject scoreZone;
     public GameObject hoop;
 
-    public Camera secondCamera;
-    public Camera firstCamera;
+    
 
     public Slider slider;
 
@@ -20,34 +19,39 @@ public class Player : MonoBehaviour
     public float gravity = -18;
     public float playerInput = 0;
 
-    public bool thrown = false;
+    public static bool thrown = false;
 
     Vector2 startPos, endPos;
-    public Vector2 direction;
+    public Vector3 direction;
     float touchTimeStart, touchTimeFinish, timeInterval;
     [Range(0.0f, 1.0f)]
     public float throwForce = 0.0f;
+    private void Awake()
+    {
+        backboard = GameObject.FindGameObjectWithTag("backBoard");
+        scoreZone = GameObject.FindGameObjectWithTag("scoreZone");
+        hoop = GameObject.FindGameObjectWithTag("hoop");
+        slider = GameObject.FindGameObjectWithTag("slider").GetComponent<Slider>();
+    }
     // Start is called before the first frame update
     void Start()
     {
-        slider = GameObject.FindGameObjectWithTag("slider").GetComponent<Slider>();
+        
         createBall();
         Physics.gravity = Vector3.up * gravity;
-        firstCamera.enabled = true;
-        secondCamera.enabled = false;
+        
     }
     // Update is called once per frame
     void Update()
     {
         throwBall();
-        createBall();
+        createBall();     
     }
     void createBall()
     {
         if (ball == null)
         {
-            ball = Instantiate(ballInstance, new Vector3(0.5f, 1, -5), Quaternion.identity);
-            ball.transform.parent = gameObject.transform;
+            ball = Instantiate(ballInstance, new Vector3(gameObject.transform.position.x+0.5f, gameObject.transform.position.y+0.05f, gameObject.transform.position.z+ 0.5f), Quaternion.identity,gameObject.transform);
             ball.GetComponent<Rigidbody>().useGravity = false;
             thrown = false;
             scoreZone.GetComponent<MeshCollider>().enabled = true; 
@@ -59,7 +63,7 @@ public class Player : MonoBehaviour
     Vector3 CalculateVelocity()
     { 
         float displacementY = scoreZone.transform.position.y - ball.transform.position.y;
-        Vector3 displacementXZ = new Vector3(scoreZone.transform.position.x - ball.transform.position.x,0, (scoreZone.transform.position.z - ball.transform.position.z) * playerInput);
+        Vector3 displacementXZ = new Vector3(scoreZone.transform.position.x - ball.transform.position.x,0, (scoreZone.transform.position.z - ball.transform.position.z) /* playerInput*/);
         Vector3 velocityY = Vector3.up * Mathf.Sqrt(-2 * gravity * h);
         Vector3 velocityXZ = displacementXZ / (Mathf.Sqrt(-2 * h / gravity) + Mathf.Sqrt(2 * (displacementY - h) / gravity));
         return velocityXZ+velocityY;
@@ -80,38 +84,21 @@ public class Player : MonoBehaviour
                 touchTimeFinish = Time.time;
                 timeInterval = touchTimeFinish - touchTimeStart;
                 endPos = Input.mousePosition;
-                direction = endPos - startPos;
-                Debug.Log(direction);
-                Vector3 mannaggia = new Vector3(0,0,direction.y);
-                Debug.Log(mannaggia.magnitude);
-                playerInput = (mannaggia.magnitude/(timeInterval*4000));
-                slider.value = playerInput/2;
+                direction = (endPos - startPos)/timeInterval;
+                Vector3 swipeZ = new Vector3(0,0,direction.y);
+                slider.value = swipeZ.magnitude / 3000f;
+               
                 if (ball.GetComponent<Rigidbody>().useGravity)
                 {
-                    ball.GetComponent<Rigidbody>().velocity = CalculateVelocity();
+                    ball.transform.parent = null;
+                    ball.GetComponent<Rigidbody>().AddForce(CalculateVelocity().normalized * (swipeZ.magnitude/3f));
+                    Debug.Log(slider.value);
                 }
                 thrown = true;
             }
-            StartCoroutine(cameraControl());
         }
         else{
             Destroy(ball,4f);
         }
     }
-
-    IEnumerator cameraControl()
-    {      
-        if (thrown == true)
-        {
-            yield return new WaitForSeconds(1.65f);
-            secondCamera.enabled = true;
-            firstCamera.enabled = false;
-        }
-        else
-        {
-            firstCamera.enabled = true;
-            secondCamera.enabled = false;
-        }
-        yield break;
-    }   
 }
